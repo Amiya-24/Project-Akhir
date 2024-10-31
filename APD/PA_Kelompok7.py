@@ -117,7 +117,7 @@ def hapus_pesanan(index):
 
 def liat_menu():
     try:
-        with open("./Project-Akhir/APD/menu.csv", "r") as file:
+        with open("./APD/menu.csv", "r") as file:
             reader = csv.reader(file)
             lines = list(reader)
 
@@ -136,7 +136,7 @@ Harga Menu : Rp.{line[1]}
 
 def tambah_menu(nama_menu, harga_menu):
     try:
-        with open("./Project-Akhir/APD/menu.csv", "a", newline='') as file:
+        with open("./APD/menu.csv", "a", newline='') as file:
             writer = csv.writer(file)
             writer.writerow([nama_menu, harga_menu])
             print("Menu Berhasil Ditambahkan")
@@ -146,13 +146,13 @@ def tambah_menu(nama_menu, harga_menu):
 
 def ubah_menu(index, menu_baru, harga_baru):
     try:
-        with open("./Project-Akhir/APD/menu.csv", "r") as file:
+        with open("./APD/menu.csv", "r") as file:
             lines = list(csv.reader(file))
 
         if 0 <= index < len(lines):
             lines[index][0] = menu_baru
             lines[index][1] = harga_baru
-            with open("./Project-Akhir/APD/menu.csv", "w", newline='') as file:
+            with open("./APD/menu.csv", "w", newline='') as file:
                 writer = csv.writer(file)
                 writer.writerows(lines)
                 print("Menu Berhasil Diubah")
@@ -165,12 +165,12 @@ def ubah_menu(index, menu_baru, harga_baru):
 
 def hapus_menu(index):
     try:
-        with open("./Project-Akhir/APD/menu.csv", "r") as file:
+        with open("./APD/menu.csv", "r") as file:
             lines = list(csv.reader(file))
 
         if 0 <= index < len(lines):
             del lines[index]
-            with open("./Project-Akhir/APD/menu.csv", "w", newline='') as file:
+            with open("./APD/menu.csv", "w", newline='') as file:
                 writer = csv.writer(file)
                 writer.writerows(lines)
             print("Menu Berhasil Dihapus")
