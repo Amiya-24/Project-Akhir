@@ -103,7 +103,7 @@ def hapus_pesanan(index):
         with open("./Project-Akhir/APD/pesanan.csv", "r") as file:
             lines = list(csv.reader(file))
 
-        if 0 <= index < len(lines):
+        if 0 <= index < len(lines): 
             del lines[index]
             with open("./Project-Akhir/APD/pesanan.csv", "w", newline='') as file:
                 writer = csv.writer(file)
@@ -297,7 +297,7 @@ def program():
                 else:
                     print("\nPilihan Invalid")
 
-        else:
+        elif role == "Pengunjung":
             while True:
                 menu_pengunjung()
                 pilih2 = input("\nMasukkan Pilihan Anda: ")
@@ -358,6 +358,9 @@ def program():
                 
                 else:
                     print("\nPilihan Invalid")
+            
+            else:
+                print("Login Gagal!")
 
 
     elif pilih1 == "3":
