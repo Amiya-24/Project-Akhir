@@ -8,7 +8,7 @@ clean()
 
 def cek_username(username):
     try:
-        with open("./Project-Akhir/APD/akun.csv", "r") as file:
+        with open("./APD/akun.csv", "r") as file:
             reader = csv.reader(file)
 
             for row in reader:
@@ -23,7 +23,7 @@ def cek_username(username):
 
 def register(username, password, role = "Pengunjung"):
     try:
-        with open("./Project-Akhir/APD/akun.csv", "a", newline='') as file:
+        with open("./APD/akun.csv", "a", newline='') as file:
             writer = csv.writer(file)
             writer.writerow([username, password, role])
             print("Register Berhasil")
@@ -33,7 +33,7 @@ def register(username, password, role = "Pengunjung"):
 
 def login(username, password):
     try:
-        with open("./Project-Akhir/APD/akun.csv", "r") as file:
+        with open("./APD/akun.csv", "r") as file:
             reader = csv.reader(file)
 
             for row in reader:
@@ -54,7 +54,7 @@ def keluar_dari_program():
 
 def lihat_pesanan():
     try:
-        with open("./Project-Akhir/APD/pesanan.csv", "r") as file:
+        with open("./APD/pesanan.csv", "r") as file:
             reader = csv.reader(file)
             lines = list(reader)
 
@@ -72,7 +72,7 @@ Jumlah Pesanan: {line[1]}
 
 def tambah_pesanan(nama_menu, jumlah_pesanan):
     try:
-        with open("./Project-Akhir/APD/pesanan.csv", "a", newline='') as file:
+        with open("./APD/pesanan.csv", "a", newline='') as file:
             writer = csv.writer(file)
             writer.writerow([nama_menu, jumlah_pesanan])
             print("Pesanan Berhasil Ditambahkan")
@@ -82,13 +82,13 @@ def tambah_pesanan(nama_menu, jumlah_pesanan):
 
 def ubah_pesanan(index, nama_menu, jumlah_pesanan):
     try:
-        with open("./Project-Akhir/APD/pesanan.csv", "r") as file:
+        with open("./APD/pesanan.csv", "r") as file:
             lines = list(csv.reader(file))
 
             if 0 <= index < len(lines):
                 lines[index][0] = nama_menu
                 lines[index][1] = jumlah_pesanan
-                with open("./Project-Akhir/APD/pesanan.csv", "w", newline='') as file:
+                with open("./APD/pesanan.csv", "w", newline='') as file:
                     writer = csv.writer(file)
                     writer.writerows(lines)
                     print("Pesanan Berhasil Diubah")
@@ -100,12 +100,12 @@ def ubah_pesanan(index, nama_menu, jumlah_pesanan):
 
 def hapus_pesanan(index):
     try:
-        with open("./Project-Akhir/APD/pesanan.csv", "r") as file:
+        with open("./APD/pesanan.csv", "r") as file:
             lines = list(csv.reader(file))
 
         if 0 <= index < len(lines): 
             del lines[index]
-            with open("./Project-Akhir/APD/pesanan.csv", "w", newline='') as file:
+            with open("./APD/pesanan.csv", "w", newline='') as file:
                 writer = csv.writer(file)
                 writer.writerows(lines)
                 print("Pesanan Berhasil Dihapus")
