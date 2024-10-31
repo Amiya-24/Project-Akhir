@@ -62,7 +62,7 @@ def lihat_pesanan():
                 for index, line in lines:
                     print(f"""
 Pesanan Ke-{index + 1}
-Nama Menu: {line[0]} 
+Nama Menu: {line[0]}
 Jumlah Pesanan: {line[1]}
 """)
             else:
