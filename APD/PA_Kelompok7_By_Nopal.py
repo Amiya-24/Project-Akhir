@@ -393,8 +393,8 @@ def program():
                 else:
                     print("\nPilihan Invalid")
             
-            else:
-                print("Login Gagal!")
+        else:
+            print("Login Gagal!")
 
 
     elif pilih1 == "3":
