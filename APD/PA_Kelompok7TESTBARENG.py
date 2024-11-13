@@ -53,10 +53,10 @@ def login(username, password):
                 print(row[0],row[1])
                 if row[0] == username and row[1] == password:
                     print("Login Berhasil")
-                    return row[7]
-                else:
-                    print("Username atau Password Salah")
-                    return None
+                    return row[6]
+
+                print("Username atau Password Salah")
+                return None
         
     except FileNotFoundError:
         print("File Tidak Ditemukan")
