@@ -48,14 +48,15 @@ def login(username, password):
     try:
         with open("./APD/akun.csv", "r") as file:
             reader = csv.reader(file)
-
+            
             for row in reader:
+                print(row[0],row[1])
                 if row[0] == username and row[1] == password:
                     print("Login Berhasil")
-                    return row[6]
-
-            print("Username atau Password Salah")
-            return None
+                    return row[7]
+                else:
+                    print("Username atau Password Salah")
+                    return None
         
     except FileNotFoundError:
         print("File Tidak Ditemukan")
@@ -368,9 +369,10 @@ def program():
         if not cek_username(username_baru):
             password_baru = input("Masukkan Password Baru: ")
             nama_baru = input("Masukkan Nama: ")
-            no_hp_baru = input("Masukkan Nomor HP: ")
             alamat_baru = input("Masukkan Alamat: ")
-            register(username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru)
+            no_hp_baru = input("Masukkan Nomor HP: ")
+            tanggal_lahir_baru = input("Masukkan Tanggal Lahir: ")
+            register(username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru, tanggal_lahir_baru)
         print("<==============================>")
 
     elif pilih1 == "2":
@@ -379,6 +381,7 @@ def program():
         username = input("Masukkan Username: ")
         password = input("Masukkan Password: ")
         role = login(username,password)
+        print(f"CEK ROLE {role}")
         print("<=====================================>")
 
         if role == "ADMIN":
