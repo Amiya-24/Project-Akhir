@@ -93,11 +93,11 @@ def tambah_pesanan(username, nama_menu, jumlah_pesanan):
             reader = list(csv.reader(file))
             if 0 <= nama_menu < len(reader):
                 nama_menu = reader[nama_menu][0] 
-                
+
                 with open("./APD/pesanan.csv", "a", newline='') as file_pesanan:
                     writer = csv.writer(file_pesanan)
                     writer.writerow([username, nama_menu, jumlah_pesanan])
-                    print(f"Pesanan '{nama_menu}' Berhasil Ditambahkan dengan Jumlah {jumlah_pesanan}")
+                    print("Pesanan Berhasil Ditambahkan")
 
             else:
                 print("Menu yang dipilih tidak valid.")
