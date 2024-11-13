@@ -90,18 +90,17 @@ Jumlah Total : Rp.{jumlah}
 def tambah_pesanan(username, nama_menu, jumlah_pesanan):
     try:
         with open("./APD/menu.csv", "r") as file:
-            reader = csv.reader(file)
-            lines = list(reader)
+            reader = list(csv.reader(file))
+            if 0 <= nama_menu < len(reader):
+                nama_menu = reader[nama_menu][0] 
+                
+                with open("./APD/pesanan.csv", "a", newline='') as file_pesanan:
+                    writer = csv.writer(file_pesanan)
+                    writer.writerow([username, nama_menu, jumlah_pesanan])
+                    print(f"Pesanan '{nama_menu}' Berhasil Ditambahkan dengan Jumlah {jumlah_pesanan}")
 
-            if lines:
-                for line in enumerate(lines):
-                    nama_menu = line[0]
-
-        with open("./APD/pesanan.csv", "a", newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow([username, nama_menu, jumlah_pesanan])
-            print("Pesanan Berhasil Ditambahkan")
-
+            else:
+                print("Menu yang dipilih tidak valid.")
 
     except FileNotFoundError:
         print("File Tidak Ditemukan")
@@ -557,7 +556,6 @@ def program():
                         index_pesanan = int(input("Masukkan Nomor Menu Yang Ingin Dipesan: ")) - 1
                         try:
                             jumlah_pesanan = int(input("Masukkan Jumlah Pesanan: "))
-                            print("Pesanan Berhasil Ditambahkan")
                             tambah_pesanan(username,index_pesanan,jumlah_pesanan)
 
                         except ValueError:
