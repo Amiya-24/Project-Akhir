@@ -34,11 +34,11 @@ def cek_username(username):
         print("File Tidak Ditemukan")
         return False
 
-def register(username, password, nama, alamat, no_hp, role = "Pengunjung"):
+def register(username, password, nama, alamat, no_hp, tanggal_lahir, role = "Pengunjung"):
     try:
         with open("./APD/akun.csv", "a", newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([username, password, nama, alamat, no_hp, role])
+            writer.writerow([username, password, nama, alamat, no_hp, tanggal_lahir, role])
             print("Register Berhasil")
     
     except FileNotFoundError:
@@ -82,7 +82,6 @@ Nama Menu: {line[0]}
 Jumlah Pesanan: {line[1]}
 Jumlah Total : Rp.{jumlah}
 """)
-
             else:
                 print("Tidak Ada Pesanan")
     except FileNotFoundError:
@@ -90,14 +89,6 @@ Jumlah Total : Rp.{jumlah}
 
 def tambah_pesanan(nama_menu, jumlah_pesanan):
     try:
-        with open("./APD/menu.csv", "r") as file:
-            reader = csv.reader(file)
-            lines = list(reader)
-
-            if lines:
-                for index, line in enumerate(lines):
-                    nama_menu = line[0]
-
         with open("./APD/pesanan.csv", "a", newline='') as file:
             writer = csv.writer(file)
             writer.writerow([nama_menu, jumlah_pesanan])
@@ -220,13 +211,50 @@ def liat_data():
                     print(f"""
 Akun ke-{index+1}
 Username : {line[0]}
-Nama : Rp.{line[1]}
-Alamat : Rp.{line[2]}
-No.HP : Rp.{line[3]}
-Password : Rp.{line[4]}
+Nama : {line[1]}
+Alamat : {line[2]}
+No.HP : {line[3]}
+Password : {line[4]}
+Role Akun : {line[5]}
+Tanggal Lahir : {line[6]}
 """)
             else:
                 print("Menu Masih Kosong")
+
+    except FileNotFoundError:
+        print("File Tidak Ditemukan")
+
+def tambah_data(username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru, tanggal_lahir_baru, role_baru):
+    try:
+        with open("./APD/akun.csv", "a", newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru, tanggal_lahir_baru, role_baru])
+            print("Menu Berhasil Ditambahkan")
+
+    except FileNotFoundError:
+        print("File Tidak Ditemukan")
+
+def ubah_menu(index, username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru, tanggal_lahir_baru, role_baru):
+    try:
+        with open("./APD/akun.csv", "r") as file:
+            lines = list(csv.reader(file))
+
+        if 0 <= index < len(lines):
+            lines[index][0] = username_baru
+            lines[index][1] = password_baru
+            lines[index][2] = nama_baru
+            lines[index][3] = alamat_baru
+            lines[index][4] = no_hp_baru
+            lines[index][5] = tanggal_lahir_baru
+            lines[index][6] = role_baru
+            
+            with open("./APD/menu.csv", "w", newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(lines)
+                print("Menu Berhasil Diubah")
+
+        else:
+            print("Pilihan Tidak Valid")
 
     except FileNotFoundError:
         print("File Tidak Ditemukan")
@@ -305,9 +333,9 @@ def program():
         username_baru = input("Masukkan Username Baru: ")
         if not cek_username(username_baru):
             password_baru = input("Masukkan Password Baru: ")
-            nama_baru = input("Masukkan Password Baru: ")
-            no_hp_baru = input("Masukkan Password Baru: ")
-            alamat_baru = input("Masukkan Password Baru: ")
+            nama_baru = input("Masukkan Nama: ")
+            no_hp_baru = input("Masukkan Nomor HP: ")
+            alamat_baru = input("Masukkan Alamat: ")
             register(username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru)
         print("<==============================>")
 
@@ -325,74 +353,149 @@ def program():
                 pilih2 = input("\nMasukkan Pilihan Anda: ")
                 clear()
                 
+# ================================== [ PIlIHAN ADMIN MENGATUR MENU ] ==================================
+
                 if pilih2 == "1":
-                    menu_admin2
-                    pilih3 =  input("\nMasukkan Pilihan Anda: ")
-                    clear()
-                    if pilih3 == "1":
+                    while True:
+                        menu_admin2
+                        pilih3 =  input("\nMasukkan Pilihan Anda: ")
                         clear()
-                        print("<========== DAFTAR MENU ==========>")
-                        liat_menu()
-                        print("<=================================>")
+                        if pilih3 == "1":
+                            clear()
+                            print("<========== DAFTAR DATA ==========>")
+                            liat_menu()
+                            print("<=================================>")
 
-                    elif pilih3 == "2":
+                        elif pilih3 == "2":
+                            clear()
+                            print("<========== MENAMBAHKAN MENU ==========>")
+                            nama_menu = input("Masukkan Nama Menu: ")
+                            harga_menu = input("Masukkan Harga Menu: Rp.")
+                            try:
+                                harga_menu = int(harga_menu)
+                                tambah_menu(nama_menu, harga_menu)
+                                print("Menu Berhasil Ditambahkan")
+
+                            except ValueError:
+                                print("Harga harus berupa angka")
+                            print("\n<======================================>")
+
+                        elif pilih3 == "3":
+                            clear()
+                            print("<========== MENGUBAH MENU ==========>")
+                            liat_menu()
+                            try:
+                                index_baru = int(input("Masukkan Nomor Menu Yang Ingin Diubah: ")) - 1
+                                menu_baru = input("Masukkan Menu Baru: ")
+                                harga_baru = int(input("Masukkan Harga Baru: Rp."))
+                                ubah_menu(index_baru, menu_baru, harga_baru)
+                                print("Menu Berhasil Diubah")
+
+                            except ValueError:
+                                print("Input tidak valid")
+                            print("\n<===================================>")
+
+                        elif pilih3 == "4":
+                            clear()
+                            print("<========== MENGHAPUS MENU ==========>")
+                            liat_menu()
+                            try:
+                                index_hapus = int(input("Masukkan Nomor Menu Yang Ingin Dihapus: ")) - 1
+                                hapus_menu(index_hapus)
+                                print("Menu Berhasil Dihapus")
+
+                            except ValueError:
+                                print("Input tidak valid")
+                            print("\n<====================================>")
+
+                        elif pilih3 == "5":
+                            lihat_pesanan()
+                            break
+
+                        elif pilih3 == "6":
+                            kembali_ke_menu()
+                            break
+
+                        else:
+                            print("\nPilihan Invalid")
+
+# ================================== [ PIlIHAN ADMIN MENGATUR DATA ] ===============================
+                    
+                elif pilih2 == "2":
+                    while True:
+                        menu_data
+                        pilih4 =  input("\nMasukkan Pilihan Anda: ")
                         clear()
-                        print("<========== MENAMBAHKAN MENU ==========>")
-                        nama_menu = input("Masukkan Nama Menu: ")
-                        harga_menu = input("Masukkan Harga Menu: Rp.")
-                        try:
-                            harga_menu = int(harga_menu)
-                            tambah_menu(nama_menu, harga_menu)
-                            print("Menu Berhasil Ditambahkan")
+                        if pilih4 == "1":
+                            clear()
+                            print("<========== DAFTAR MENU ==========>")
+                            liat_data()
+                            print("<=================================>")
 
-                        except ValueError:
-                            print("Harga harus berupa angka")
-                        print("\n<======================================>")
+                        elif pilih4 == "2":
+                            clear()
+                            print("<========== MENAMBAHKAN MENU ==========>")
+                            nambah_nama = input("Masukkan Nama Baru Pengguna: ")
+                            nambah_username = input("Masukkan Username Baru Pengguna: ")
+                            nambah_password = input("Masukkan Password Baru Pengguna: ")
+                            nambah_tanggallahir_baru = input("Masukkan Tanggal Lahir Baru Pengguna: ")
+                            nambah_alamat = input("Masukkan Alamat Baru Pengguna : ")
+                            nambah_NoHP = input("Masukkan No.HP Baru Pengguna: ")
+                            nambah_Role = input("Masukkan Role Baru Pengguna: ")
+                            try:
+                                harga_menu = int(harga_menu)
+                                tambah_data()
+                                print("Menu Berhasil Ditambahkan")
 
-                    elif pilih3 == "3":
-                        clear()
-                        print("<========== MENGUBAH MENU ==========>")
-                        liat_menu()
-                        try:
-                            index_baru = int(input("Masukkan Nomor Menu Yang Ingin Diubah: ")) - 1
-                            menu_baru = input("Masukkan Menu Baru: ")
-                            harga_baru = int(input("Masukkan Harga Baru: Rp."))
-                            ubah_menu(index_baru, menu_baru, harga_baru)
-                            print("Menu Berhasil Diubah")
+                            except ValueError:
+                                print("Harga harus berupa angka")
+                            print("\n<======================================>")
 
-                        except ValueError:
-                            print("Input tidak valid")
-                        print("\n<===================================>")
+                        elif pilih4 == "3":
+                            clear()
+                            print("<========== MENGUBAH MENU ==========>")
+                            liat_menu()
+                            try:
+                                index_baru = int(input("Masukkan Nomor Menu Yang Ingin Diubah: ")) - 1
+                                menu_baru = input("Masukkan Menu Baru: ")
+                                harga_baru = int(input("Masukkan Harga Baru: Rp."))
+                                ubah_menu(index_baru, menu_baru, harga_baru)
+                                print("Menu Berhasil Diubah")
 
-                    elif pilih3 == "4":
-                        clear()
-                        print("<========== MENGHAPUS MENU ==========>")
-                        liat_menu()
-                        try:
-                            index_hapus = int(input("Masukkan Nomor Menu Yang Ingin Dihapus: ")) - 1
-                            hapus_menu(index_hapus)
-                            print("Menu Berhasil Dihapus")
+                            except ValueError:
+                                print("Input tidak valid")
+                            print("\n<===================================>")
 
-                        except ValueError:
-                            print("Input tidak valid")
-                        print("\n<====================================>")
+                        elif pilih4 == "4":
+                            clear()
+                            print("<========== MENGHAPUS MENU ==========>")
+                            liat_menu()
+                            try:
+                                index_hapus = int(input("Masukkan Nomor Menu Yang Ingin Dihapus: ")) - 1
+                                hapus_menu(index_hapus)
+                                print("Menu Berhasil Dihapus")
 
-                    elif pilih3 == "5":
-                        kembali_ke_menu()
-                        break
+                            except ValueError:
+                                print("Input tidak valid")
+                            print("\n<====================================>")
 
-                    elif pilih3 == "6":
-                        kembali_ke_menu()
-                        break
+                        elif pilih4 == "5":
+                            lihat_pesanan()
+                            break
 
-                    else:
-                        print("\nPilihan Invalid")
-                
-                if pilih2 == "2":
-                    print("Data masih proses")
-        
-                if pilih2 == "3":
-                    print("tes")
+                        elif pilih4 == "6":
+                            kembali_ke_menu()
+                            break
+
+                        else:
+                            print("\nPilihan Invalid")
+
+            
+                elif pilih2 == "3":
+                    kembali_ke_menu()
+                    break
+
+# ================================== [ PROGRAM PENGGUNA ] ===============================
 
         elif role == "Pengunjung":
             while True:
