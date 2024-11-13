@@ -78,8 +78,8 @@ def lihat_pesanan():
                     jumlah = harga_total(line[0],line[1])
                     print(f"""
 Pesanan Ke-{index + 1}
-Nama Menu: {line[0]}
-Jumlah Pesanan: {line[1]}
+Nama Menu: {line[1]}
+Jumlah Pesanan: {line[2]}
 Jumlah Total : Rp.{jumlah}
 """)
             else:
@@ -87,11 +87,11 @@ Jumlah Total : Rp.{jumlah}
     except FileNotFoundError:
         print("File Tidak Ditemukan")
 
-def tambah_pesanan(nama_menu, jumlah_pesanan):
+def tambah_pesanan(username, nama_menu, jumlah_pesanan):
     try:
         with open("./APD/pesanan.csv", "a", newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([nama_menu, jumlah_pesanan])
+            writer.writerow([username, nama_menu, jumlah_pesanan])
             print("Pesanan Berhasil Ditambahkan")
 
     except FileNotFoundError:
@@ -203,7 +203,7 @@ def hapus_menu(index):
 # ================================== [ ADMIN DATA MANAGEMENT ] ==================================
 def liat_data():
     try:
-        with open("./APD/menu.csv", "r") as file:
+        with open("./APD/akun.csv", "r") as file:
             reader = csv.reader(file)
             lines = list(reader)
             if lines:
@@ -234,7 +234,7 @@ def tambah_data(username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru
     except FileNotFoundError:
         print("File Tidak Ditemukan")
 
-def ubah_menu(index, username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru, tanggal_lahir_baru, role_baru):
+def ubah_data(index, username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru, tanggal_lahir_baru, role_baru):
     try:
         with open("./APD/akun.csv", "r") as file:
             lines = list(csv.reader(file))
@@ -248,7 +248,7 @@ def ubah_menu(index, username_baru, password_baru, nama_baru, alamat_baru, no_hp
             lines[index][5] = tanggal_lahir_baru
             lines[index][6] = role_baru
             
-            with open("./APD/menu.csv", "w", newline='') as file:
+            with open("./APD/akun.csv", "w", newline='') as file:
                 writer = csv.writer(file)
                 writer.writerows(lines)
                 print("Menu Berhasil Diubah")
@@ -259,6 +259,41 @@ def ubah_menu(index, username_baru, password_baru, nama_baru, alamat_baru, no_hp
     except FileNotFoundError:
         print("File Tidak Ditemukan")
 
+def hapus_data(index):
+    try:
+        with open("./APD/akun.csv", "r") as file:
+            lines = list(csv.reader(file))
+
+        if 0 <= index < len(lines):
+            del lines[index]
+            with open("./APD/akun.csv", "w", newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(lines)
+            print("Menu Berhasil Dihapus")
+
+        else:
+            print("Pilihan Tidak Valid")
+
+    except FileNotFoundError:
+        print("File Tidak Ditemukan")
+
+def liat_pesanan_pengguna():
+    try:
+        with open("./APD/pesanan.csv", "r") as file:
+            reader = csv.reader(file)
+            lines = list(reader)
+            if lines:
+                for index, line in enumerate(lines):
+                    print(f"""
+Akun ke-{index+1}
+Username : {line[0]}
+Pesanan : {line[1]}
+""")
+            else:
+                print("Menu Masih Kosong")
+
+    except FileNotFoundError:
+        print("File Tidak Ditemukan")
 
 # ================================== [ MENU ] ==================================
 
@@ -282,7 +317,7 @@ def menu_admin1():
     print("<==============================>")
     print("| 1. Mengatur Menu             |")
     print("| 2. Mengatur Data Pengguna    |")
-    print("| 3. Keluar                    |")
+    print("| 3. Kembali                   |")
     print("<==============================>")
 
 def menu_admin2():
@@ -295,7 +330,6 @@ def menu_admin2():
     print("| 4. Hapus Menu                |")
     print("| 5. Kembali                   |")
     print("<==============================>")
-
     
 def menu_pengunjung():
     print("\n<==============================>")
@@ -428,24 +462,23 @@ def program():
                         clear()
                         if pilih4 == "1":
                             clear()
-                            print("<========== DAFTAR MENU ==========>")
+                            print("<========== DAFTAR DATA ==========>")
                             liat_data()
                             print("<=================================>")
 
                         elif pilih4 == "2":
                             clear()
-                            print("<========== MENAMBAHKAN MENU ==========>")
-                            nambah_nama = input("Masukkan Nama Baru Pengguna: ")
+                            print("<========== MENAMBAHKAN DATA ==========>")
                             nambah_username = input("Masukkan Username Baru Pengguna: ")
                             nambah_password = input("Masukkan Password Baru Pengguna: ")
-                            nambah_tanggallahir_baru = input("Masukkan Tanggal Lahir Baru Pengguna: ")
+                            nambah_nama = input("Masukkan Nama Baru Pengguna: ")
                             nambah_alamat = input("Masukkan Alamat Baru Pengguna : ")
                             nambah_NoHP = input("Masukkan No.HP Baru Pengguna: ")
+                            nambah_tanggallahir = input("Masukkan Tanggal Lahir Baru Pengguna: ")
                             nambah_Role = input("Masukkan Role Baru Pengguna: ")
                             try:
-                                harga_menu = int(harga_menu)
-                                tambah_data()
-                                print("Menu Berhasil Ditambahkan")
+                                tambah_data(nambah_username, nambah_password, nambah_nama, nambah_alamat, nambah_NoHP, nambah_tanggallahir, nambah_Role)
+                                print("Data Berhasil Ditambahkan")
 
                             except ValueError:
                                 print("Harga harus berupa angka")
@@ -453,13 +486,18 @@ def program():
 
                         elif pilih4 == "3":
                             clear()
-                            print("<========== MENGUBAH MENU ==========>")
-                            liat_menu()
+                            print("<========== MENGUBAH DATA ==========>")
+                            liat_data()
                             try:
-                                index_baru = int(input("Masukkan Nomor Menu Yang Ingin Diubah: ")) - 1
-                                menu_baru = input("Masukkan Menu Baru: ")
-                                harga_baru = int(input("Masukkan Harga Baru: Rp."))
-                                ubah_menu(index_baru, menu_baru, harga_baru)
+                                index_baru = int(input("Masukkan Nomor Data Yang Ingin Diubah: ")) - 1
+                                username_baru = input("Masukkan Username Baru: ")
+                                password_baru = input("Masukkan Password Baru: ")
+                                nama_baru = input("Masukkan Nama Baru: ")
+                                alamat_baru = input("Masukkan Alamat Baru: ")
+                                no_hp_baru = input("Masukkan No.HP Baru: ")
+                                tanggal_lahir_baru = input("Masukkan Tanggal Lahir Baru: ")
+                                role_baru = input("Masukkan Role Baru: ")
+                                ubah_menu(index_baru, username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru, tanggal_lahir_baru, role_baru)
                                 print("Menu Berhasil Diubah")
 
                             except ValueError:
@@ -468,19 +506,19 @@ def program():
 
                         elif pilih4 == "4":
                             clear()
-                            print("<========== MENGHAPUS MENU ==========>")
-                            liat_menu()
+                            print("<========== MENGHAPUS DATA ==========>")
+                            liat_data()
                             try:
-                                index_hapus = int(input("Masukkan Nomor Menu Yang Ingin Dihapus: ")) - 1
-                                hapus_menu(index_hapus)
-                                print("Menu Berhasil Dihapus")
+                                index_hapus = int(input("Masukkan Nomor Data Yang Ingin Dihapus: ")) - 1
+                                hapus_data(index_hapus)
+                                print("Data Berhasil Dihapus")
 
                             except ValueError:
                                 print("Input tidak valid")
                             print("\n<====================================>")
 
                         elif pilih4 == "5":
-                            lihat_pesanan()
+                            liat_pesanan_pengguna()
                             break
 
                         elif pilih4 == "6":
@@ -518,7 +556,7 @@ def program():
                         try:
                             jumlah_pesanan = int(input("Masukkan Jumlah Pesanan: "))
                             print("Pesanan Berhasil Ditambahkan")
-                            tambah_pesanan(index_pesanan,jumlah_pesanan)
+                            tambah_pesanan(username,index_pesanan,jumlah_pesanan)
 
                         except ValueError:
                             print("Jumlah Pesanan harus berupa angka")
