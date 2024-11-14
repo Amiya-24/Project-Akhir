@@ -84,6 +84,7 @@ Jumlah Total : Rp.{jumlah}
 """)
             else:
                 print("Tidak Ada Pesanan")
+                
     except FileNotFoundError:
         print("File Tidak Ditemukan")
 
@@ -107,13 +108,13 @@ def tambah_pesanan(username, nama_menu, jumlah_pesanan):
 
 def ubah_pesanan(index, nama_menu, jumlah_pesanan):
     try:
-        with open("./APD/pesanan.csv", "r") as file:
+        with open("./APD/menu.csv", "r") as file:
             lines = list(csv.reader(file))
 
-            if 0 <= index < len(lines):
-                lines[index][0] = nama_menu
-                lines[index][1] = jumlah_pesanan
-                with open("/APD/pesanan.csv", "w", newline='') as file:
+            if 0 <= index < len(lines): 
+                lines[index][1] = nama_menu
+                lines[index][2] = jumlah_pesanan
+                with open("./APD/pesanan.csv", "w", newline='') as file:
                     writer = csv.writer(file)
                     writer.writerows(lines)
                     print("Pesanan Berhasil Diubah")
@@ -570,6 +571,7 @@ def program():
                     lihat_pesanan()
                     try:
                         index_pesanan = int(input("Masukkan Nomor Menu Yang Ingin Diubah: ")) - 1
+                        liat_menu()
                         index_baru = int(input("Masukkan Nomor Menu Baru: ")) - 1
                         jumlah_pesanan = int(input("Masukkan Jumlah Pesanan: "))
                         ubah_pesanan(index_pesanan, index_baru, jumlah_pesanan)
