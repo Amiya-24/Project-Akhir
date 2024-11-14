@@ -111,9 +111,12 @@ def ubah_pesanan(index, nama_menu, jumlah_pesanan):
             lines = list(csv.reader(file))
 
             if 0 <= index < len(lines):
-                lines[index][0] = nama_menu
-                lines[index][1] = jumlah_pesanan
-                with open("/APD/pesanan.csv", "w", newline='') as file:
+                lines[index][2] = jumlah_pesanan
+                with open("./APD/menu.csv", "r") as file:
+                    lines2 = list(csv.reader(file))
+                    menubaru = lines2[nama_menu][0]
+                    lines[index][1] = menubaru
+                with open("./APD/pesanan.csv", "w", newline='') as file:
                     writer = csv.writer(file)
                     writer.writerows(lines)
                     print("Pesanan Berhasil Diubah")
