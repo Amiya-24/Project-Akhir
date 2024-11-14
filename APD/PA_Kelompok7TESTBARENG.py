@@ -108,7 +108,7 @@ def tambah_pesanan(username, nama_menu, jumlah_pesanan):
 
 def ubah_pesanan(index, nama_menu, jumlah_pesanan):
     try:
-        with open("./APD/menu.csv", "r") as file:
+        with open("./APD/pesanan.csv", "r") as file:
             lines = list(csv.reader(file))
 
             if 0 <= index < len(lines): 
@@ -618,4 +618,3 @@ def program():
 
 while (True):
     program()
-    
