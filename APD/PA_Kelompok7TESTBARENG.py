@@ -491,15 +491,15 @@ def program():
                             print("<========== MENGUBAH DATA ==========>")
                             liat_data()
                             try:
-                                index_baru = int(input("Masukkan Nomor Data Yang Ingin Diubah: ")) - 1
+                                index_baru = int(input("Masukkan Nomor Data Yang Ingin Diubah: ")) - 1 # habis mmasukkan index nanti dia milih mau data bagian mana yang diubah
                                 username_baru = input("Masukkan Username Baru: ")
                                 password_baru = input("Masukkan Password Baru: ")
                                 nama_baru = input("Masukkan Nama Baru: ")
                                 alamat_baru = input("Masukkan Alamat Baru: ")
                                 no_hp_baru = input("Masukkan No.HP Baru: ")
                                 tanggal_lahir_baru = input("Masukkan Tanggal Lahir Baru: ")
-                                role_baru = input("Masukkan Role Baru: ")
-                                ubah_menu(index_baru, username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru, tanggal_lahir_baru, role_baru)
+                                role_baru = input("Masukkan Role Baru: ") # role_baru bisa dihapus karena role admin cuma bisa satu
+                                ubah_menu(index_baru, username_baru, password_baru, nama_baru, alamat_baru, no_hp_baru, tanggal_lahir_baru, role_baru) #role_baru dihapus aja nanti
 
                             except ValueError:
                                 print("Input tidak valid")
